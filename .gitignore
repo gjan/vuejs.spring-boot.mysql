@@ -2,8 +2,12 @@ HELP.md
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+### Application specific ###
 application-dev.properties
-
+src/main/resources/static/css/
+src/main/resources/static/favicon.ico
+src/main/resources/static/js/
+src/main/resources/templates/index.html
 
 ### STS ###
 .apt_generated
@@ -30,3 +34,5 @@ application-dev.properties
 
 ### VS Code ###
 .vscode/
+src/main/resources/static/favicon.ico
+src/main/resources/static/js/app.dff61288.js
