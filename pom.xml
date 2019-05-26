@@ -14,6 +14,8 @@
 	<description>Demo project for Spring Boot</description>
 	
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
 	
@@ -178,6 +180,24 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>copy front-end assets</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>prepare-package</phase>
+						<configuration>
+							<outputDirectory>${basedir}/src/main/resources/static</outputDirectory>
+							<resources>
+								<resource>
+									<directory>front-end/dist</directory>
+									<excludes>
+										<exclude>index.html</exclude>
+									</excludes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
 						<id>copy front-end template to target</id>
 						<goals>
 							<goal>copy-resources</goal>
@@ -203,24 +223,6 @@
 						<phase>prepare-package</phase>
 						<configuration>
 							<outputDirectory>${basedir}/target/classes/static</outputDirectory>
-							<resources>
-								<resource>
-									<directory>front-end/dist</directory>
-									<excludes>
-										<exclude>index.html</exclude>
-									</excludes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy front-end static assets</id>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<phase>prepare-package</phase>
-						<configuration>
-							<outputDirectory>${basedir}/src/main/resources/static</outputDirectory>
 							<resources>
 								<resource>
 									<directory>front-end/dist</directory>
