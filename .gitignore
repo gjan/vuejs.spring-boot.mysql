@@ -9,6 +9,7 @@ src/main/resources/static/favicon.ico
 src/main/resources/static/js/
 src/main/resources/static/images/
 src/main/resources/templates/index.html
+src/main/resources/static/static/
 
 ### STS ###
 .apt_generated
@@ -35,5 +36,3 @@ src/main/resources/templates/index.html
 
 ### VS Code ###
 .vscode/
-src/main/resources/static/favicon.ico
-src/main/resources/static/js/app.dff61288.js
