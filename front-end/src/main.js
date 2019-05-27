@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import axios from "axios";
+import Vuelidate from "vuelidate";
 
 // Bootstrap axios
 axios.defaults.baseURL = "/api";
@@ -15,6 +16,7 @@ axios.interceptors.response.use(
 );
 
 Vue.config.productionTip = false;
+Vue.use(Vuelidate);
 
 new Vue({
   router,

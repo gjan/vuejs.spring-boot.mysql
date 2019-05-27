@@ -41,6 +41,13 @@
 
 <script>
 import registrationService from "@/services/registration";
+import {
+  required,
+  email,
+  minLength,
+  maxLength,
+  alphaNum
+} from "vuelidate/lib/validators";
 
 export default {
   name: "RegisterPage",
@@ -55,13 +62,40 @@ export default {
   },
   methods: {
     submitForm() {
-      // Todo: Validate data
-      registrationService.register(this.form).then(() => {
-        this.$router.push({ name: "LoginPage" });
-      }).catch((error) => {
-        let message = error.message ? error.message : "Unknown.";
-        this.errorMessage = `Failed to register usre. Reason: ${message}`;
-      });
+      // Validate data
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+      registrationService
+        .register(this.form)
+        .then(() => {
+          this.$router.push({ name: "LoginPage" });
+        })
+        .catch(error => {
+          let message = error.message ? error.message : "Unknown.";
+          this.errorMessage = `Failed to register usre. Reason: ${message}`;
+        });
+    }
+  },
+  validations: {
+    form: {
+      username: {
+        required,
+        minLength: minLength(2),
+        maxLength: maxLength(50),
+        alphaNum
+      },
+      emailAddress: {
+        required,
+        email,
+        maxLength: maxLength(100)
+      },
+      password: {
+        required,
+        minLength: minLength(6),
+        maxLength: maxLength(30)
+      }
     }
   }
 };
@@ -84,14 +118,13 @@ export default {
     color: #666;
   }
 
- .logo {
+  .logo {
     max-width: 150px;
     margin: 0 auto;
   }
 }
 
 .register-form {
-
   .form-group label {
     font-weight: bold;
     color: #555;

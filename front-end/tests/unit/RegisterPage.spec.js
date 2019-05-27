@@ -1,11 +1,14 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import VueRouter from "vue-router";
+import Vuelidate from "vuelidate";
+import registrationService from "@/services/registration";
 import RegisterPage from "@/views/RegisterPage";
 
 // Adding Vue Router to the test so that
 // we can access vm.$router
 const localVue = createLocalVue();
 localVue.use(VueRouter);
+localVue.use(Vuelidate);
 const router = new VueRouter();
 
 // Mock dependency registratioService
@@ -18,6 +21,8 @@ describe("RegisterPage.vue", () => {
   let fieldPassword;
   let buttonSubmit;
 
+  let registerSpy;
+
   beforeEach(() => {
     wrapper = mount(RegisterPage, {
       localVue,
@@ -27,6 +32,12 @@ describe("RegisterPage.vue", () => {
     fieldEmailAddress = wrapper.find("#emailAddress");
     fieldPassword = wrapper.find("#password");
     buttonSubmit = wrapper.find("form button[type = 'submit']");
+    registerSpy = jest.spyOn(registrationService, "register");
+  });
+
+  afterEach(() => {
+    registerSpy.mockReset();
+    registerSpy.mockRestore();
   });
 
   afterAll(() => {
@@ -74,7 +85,9 @@ describe("RegisterPage.vue", () => {
     expect(stub).toBeCalled();
   });
 
-  it("should register when it is a new user", () => {
+  it("should register when it is a new user", async () => {
+    expect.assertions(2);
+
     const stub = jest.fn();
     const username = "gerhard";
     const emailAddress = "gerhard@home.de";
@@ -86,17 +99,46 @@ describe("RegisterPage.vue", () => {
     wrapper.vm.form.emailAddress = emailAddress;
     wrapper.vm.form.password = password;
     wrapper.vm.submitForm();
-    wrapper.vm.$nextTick(() => {
-      expect(stub).toHaveBeenCalledWith({ name: "LoginPage" });
-    });
+    expect(registerSpy).toBeCalled();
+    await wrapper.vm.$nextTick();
+    expect(stub).toHaveBeenCalledWith({ name: "LoginPage" });
   });
 
-  it("should fail if it is not a new user", () => {
+  it("should fail if it is not a new user", async () => {
+    expect.assertions(3);
+    // In the mock only "gerhard@home.de" is a new user
+    wrapper.vm.form.username = "uschi";
     wrapper.vm.form.emailAddress = "uschi@already-exists.com";
+    wrapper.vm.form.password = "AnInsecurePwd";
     expect(wrapper.find(".failed").isVisible()).toBe(false);
     wrapper.vm.submitForm();
-    wrapper.vm.$nextTick(null, () => {
-      expect(wrapper.find(".failed").isVisible()).toBe(true);
-    });
+    expect(registerSpy).toBeCalled();
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find(".failed").isVisible()).toBe(false);
+  });
+
+  it("should fail it the email address is invalid", () => {
+    const spy = jest.spyOn(registrationService, "register");
+    wrapper.vm.form.emailAddress = "bad-email-address";
+    wrapper.vm.submitForm();
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockReset();
+    spy.mockRestore();
+  });
+
+  it("should fail when the username is invalid", () => {
+    wrapper.vm.form.username = "a";
+    wrapper.vm.form.emailAddress = "good-mailaddres@home.de";
+    wrapper.vm.form.password = "good-password";
+    wrapper.vm.submitForm();
+    expect(registerSpy).not.toHaveBeenCalled();
+  });
+
+  it("should fail when the password is invalid", () => {
+    wrapper.vm.form.username = "goodusername";
+    wrapper.vm.form.emailAddress = "good-mailaddres@home.de";
+    wrapper.vm.form.password = "bad!";
+    wrapper.vm.submitForm();
+    expect(registerSpy).not.toHaveBeenCalled();
   });
 });
