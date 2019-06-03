@@ -96,9 +96,7 @@ public class HibernateUserRepositoryTest {
       User newUser = User.create("Gerd", emailAddress, "MyPassword!");
       repository.save(newUser);
     } catch (Exception e) {
-      String excString1 = ConstraintViolationException.class.toString();
-      String excString2 = e.getCause().getClass().toString();
-      assertEquals(excString1, excString2);
+      assertEquals(ConstraintViolationException.class.toString(), e.getCause().getClass().toString());
     }
   }
 

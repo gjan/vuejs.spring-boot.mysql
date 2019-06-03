@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import de.gdevelop.taskagile.config.SecurityConfiguration;
 import de.gdevelop.taskagile.domain.application.UserService;
 import de.gdevelop.taskagile.domain.model.user.EmailAddressExistsException;
 import de.gdevelop.taskagile.domain.model.user.UsernameExistsException;
@@ -22,6 +24,7 @@ import de.gdevelop.taskagile.utils.JsonUtils;
 import de.gdevelop.taskagile.web.payload.RegistrationPayload;
 
 @RunWith(SpringRunner.class)
+@ContextConfiguration(classes = { SecurityConfiguration.class, RegistrationApiController.class })
 @WebMvcTest(RegistrationApiController.class)
 public class RegistrationApiControllerTest {
 
