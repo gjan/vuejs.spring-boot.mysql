@@ -52,6 +52,11 @@ public class User extends AbstractBaseEntity {
     return user;
   }
 
+  public void updateName(String firstName, String lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
   public Long getId() {
     return id;
   }
@@ -101,4 +106,5 @@ public class User extends AbstractBaseEntity {
         + ", password=<Protected> " + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\''
         + ", createdDate=" + createdDate + '}';
   }
+
 }
