@@ -20,8 +20,8 @@ public class RegistrationPayloadTest {
   private static String validUsername = "Gerhard";
   private static String invalidUsernameMinLength = "G";
   private static String invalidUsernameMaxLength = "G12345678901234567890123456789012345678901234567890";
-  private static String validEmailAddress = "Gerhard@home.de";
-  private static String invalidEmailAddress = "Gerhard";
+  private static String validEmailAddress = "gerhard@home.de";
+  private static String invalidEmailAddress = "gerhard";
   private static String validPassword = "password";
   private static String invalidPasswordMinLength = "passw";
   private static String invalidPasswordMaxLength = "G1234567890123456789012345678901";

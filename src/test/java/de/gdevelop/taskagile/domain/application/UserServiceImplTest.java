@@ -42,7 +42,7 @@ public class UserServiceImplTest {
   @Test(expected = UsernameExistsException.class)
   public void registerExistingUsernameShouldFail() throws RegistrationException {
     String username = "existing";
-    String emailAddress = "gerhard@taskagile.com";
+    String emailAddress = "gerhard@home.de";
     String password = "MyPassword!";
     doThrow(UsernameExistsException.class).when(registrationManagementMock).register(username, emailAddress, password);
 
@@ -54,7 +54,7 @@ public class UserServiceImplTest {
   @Test(expected = EmailAddressExistsException.class)
   public void registerExistingEmailAddressShouldFail() throws RegistrationException {
     String username = "existing";
-    String emailAddress = "gerhard@taskagile.com";
+    String emailAddress = "gerhard@home.de";
     String password = "MyPassword!";
     doThrow(EmailAddressExistsException.class).when(registrationManagementMock).register(username, emailAddress,
         password);
@@ -66,7 +66,7 @@ public class UserServiceImplTest {
   @Test
   public void registerValidCommandShouldSucceed() throws RegistrationException {
     String username = "Gerhard";
-    String emailAddress = "gerhard@taskagile.com";
+    String emailAddress = "gerhard@home.de";
     String password = "MyPassword!";
     User newUser = User.create(username, emailAddress, password);
     when(registrationManagementMock.register(username, emailAddress, password)).thenReturn(newUser);
