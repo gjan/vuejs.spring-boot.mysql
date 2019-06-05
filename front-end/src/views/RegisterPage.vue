@@ -40,7 +40,6 @@ import registrationService from "@/services/registration";
 import Logo from "@/components/Logo.vue";
 import PageFooter from "@/components/PageFooter.vue";
 
-
 export default {
   name: "RegisterPage",
   data: function() {
@@ -58,7 +57,6 @@ export default {
   },
   methods: {
     submitForm() {
-      // Validate data
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
@@ -69,8 +67,7 @@ export default {
           this.$router.push({ name: "login" });
         })
         .catch(error => {
-          let message = error.message ? error.message : "Unknown.";
-          this.errorMessage = `Failed to register usre. Reason: ${message}`;
+          this.errorMessage = error.message;
         });
     }
   },

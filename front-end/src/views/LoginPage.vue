@@ -38,15 +38,15 @@ import Logo from "@/components/Logo.vue";
 import PageFooter from "@/components/PageFooter.vue";
 
 export default {
-  name: 'LoginPage',
-  data: function () {
+  name: "LoginPage",
+  data: function() {
     return {
       form: {
-        username: '',
-        password: ''
+        username: "",
+        password: ""
       },
-      errorMessage: ''
-    }
+      errorMessage: ""
+    };
   },
   components: {
     Logo,
@@ -63,19 +63,22 @@ export default {
     }
   },
   methods: {
-    submitForm () {
-      this.$v.$touch()
+    submitForm() {
+      this.$v.$touch();
       if (this.$v.$invalid) {
-        return
+        return;
       }
-      authenticationService.authenticate(this.form).then(() => {
-        this.$router.push({name: 'home'})
-      }).catch((error) => {
-        this.errorMessage = error.message
-      })
+      authenticationService
+        .authenticate(this.form)
+        .then(() => {
+          this.$router.push({ name: "home" });
+        })
+        .catch(error => {
+          this.errorMessage = error.message;
+        });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -3,14 +3,10 @@ package de.gdevelop.taskagile.utils;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.gdevelop.taskagile.web.results.ApiResult;
 
 public final class JsonUtils {
 
