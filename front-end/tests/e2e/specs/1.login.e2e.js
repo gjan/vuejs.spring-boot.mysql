@@ -33,10 +33,7 @@ module.exports = {
     const homePage = browser.page.HomePage();
     loginPage.navigate().login(data.username, data.password);
     browser.pause(5000);
-    homePage
-      .navigate()
-      .expect.element("@pageTitle")
-      .text.to.contain("Home Page");
+    homePage.navigate().assert.visible("@logoImage");
     browser.end();
   },
   "login with email address": function(browser) {
@@ -46,10 +43,7 @@ module.exports = {
 
     browser.pause(5000);
 
-    homePage
-      .navigate()
-      .expect.element("@pageTitle")
-      .text.to.contain("Home Page");
+    homePage.navigate().assert.visible("@logoImage");
 
     browser.end();
   }

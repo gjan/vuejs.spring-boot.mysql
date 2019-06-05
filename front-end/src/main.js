@@ -3,6 +3,9 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import axios from "axios";
+import { library as faLibrary } from "@fortawesome/fontawesome-svg-core";
+import { faHome, faSearch, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import Vuelidate from "vuelidate";
 
 // Bootstrap axios
@@ -15,8 +18,15 @@ axios.interceptors.response.use(
   }
 );
 
-Vue.config.productionTip = false;
+// Enable Vuelidate
 Vue.use(Vuelidate);
+
+faLibrary.add(faHome);
+faLibrary.add(faSearch);
+faLibrary.add(faPlus);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
+
+Vue.config.productionTip = false;
 
 new Vue({
   router,
