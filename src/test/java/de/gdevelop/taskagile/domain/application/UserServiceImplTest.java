@@ -142,7 +142,7 @@ public class UserServiceImplTest {
 
     verify(mailManagerMock).send(emailAddress, "Welcome to TaskAgile", "welcome.ftl",
         MessageVariable.from("user", newUser));
-    verify(eventPublisherMock).publish(new UserRegisteredEvent(newUser));
+    verify(eventPublisherMock).publish(new UserRegisteredEvent(this, newUser));
 
   }
 }
