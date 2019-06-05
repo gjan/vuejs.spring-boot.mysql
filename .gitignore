@@ -10,6 +10,7 @@ src/main/resources/static/js/
 src/main/resources/static/images/
 src/main/resources/templates/index.html
 src/main/resources/static/static/
+spy.log
 
 ### STS ###
 .apt_generated
