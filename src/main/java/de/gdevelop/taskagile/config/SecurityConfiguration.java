@@ -28,7 +28,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler()).and().authorizeRequests().antMatchers(PUBLIC)
         .permitAll().anyRequest().authenticated().and()
         .addFilterAt(authenticationFilter(), UsernamePasswordAuthenticationFilter.class).formLogin().loginPage("/login")
-        .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login?logged-out").and().csrf().disable();
+        .and().logout().logoutUrl("/logout").logoutUrl("/api/me/logout").logoutSuccessUrl("/login?logged-out").and()
+        .csrf().disable();
   }
 
   @Bean

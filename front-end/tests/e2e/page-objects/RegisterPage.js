@@ -13,6 +13,12 @@ module.exports = {
     emailAddressInput: {
       selector: "#emailAddress"
     },
+    firstNameInput: {
+      selector: "#firstName"
+    },
+    lastNameInput: {
+      selector: "#lastName"
+    },
     passwordInput: {
       selector: "#password"
     },
@@ -25,9 +31,17 @@ module.exports = {
   },
   commands: [
     {
-      register: function(username, emailAddress, password) {
+      register: function(
+        username,
+        emailAddress,
+        firstName,
+        lastName,
+        password
+      ) {
         this.setValue("@usernameInput", username)
           .setValue("@emailAddressInput", emailAddress)
+          .setValue("@firstNameInput", firstName)
+          .setValue("@lastNameInput", lastName)
           .setValue("@passwordInput", password)
           .click("@submitButton");
       }

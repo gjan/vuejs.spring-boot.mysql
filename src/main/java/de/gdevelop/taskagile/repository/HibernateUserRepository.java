@@ -1,6 +1,7 @@
 package de.gdevelop.taskagile.repository;
 
 import de.gdevelop.taskagile.domain.model.user.User;
+import de.gdevelop.taskagile.domain.model.user.UserId;
 import de.gdevelop.taskagile.domain.model.user.UserRepository;
 
 import javax.persistence.EntityManager;
@@ -26,6 +27,13 @@ public class HibernateUserRepository extends HibernateSupport<User> implements U
   public User findByEmailAddress(String emailAddress) {
     Query<User> query = getSession().createQuery("from User where emailAddress = :emailAddress", User.class);
     query.setParameter("emailAddress", emailAddress);
+    return query.uniqueResult();
+  }
+
+  @Override
+  public User findById(UserId userId) {
+    Query<User> query = getSession().createQuery("from User where id = :id", User.class);
+    query.setParameter("id", userId.value());
     return query.uniqueResult();
   }
 

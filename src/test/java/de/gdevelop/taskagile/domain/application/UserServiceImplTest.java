@@ -72,7 +72,7 @@ public class UserServiceImplTest {
   @Test
   public void loadUserByUsername_existUsername_shouldSucceed() throws IllegalAccessException {
     String existUsername = "ExistUsername";
-    User foundUser = User.create(existUsername, "user@taskagile.com", "EncryptedPassword!");
+    User foundUser = User.create(existUsername, "user@taskagile.com", "firstName", "lastName", "EncryptedPassword!");
     foundUser.updateName("Test", "User");
     // Found user from the database should have id. And since no setter of
     // id is available in User, we have to write the value to it using reflection
@@ -109,10 +109,13 @@ public class UserServiceImplTest {
   public void registerExistingUsernameShouldFail() throws RegistrationException {
     String username = "existing";
     String emailAddress = "gerhard@home.de";
+    String firstName = "Gerhard";
+    String lastName = "Jansen";
     String password = "MyPassword!";
-    doThrow(UsernameExistsException.class).when(registrationManagementMock).register(username, emailAddress, password);
+    doThrow(UsernameExistsException.class).when(registrationManagementMock).register(username, emailAddress, firstName,
+        lastName, password);
 
-    RegistrationCommand command = new RegistrationCommand(username, emailAddress, password);
+    RegistrationCommand command = new RegistrationCommand(username, emailAddress, firstName, lastName, password);
     instance.register(command);
 
   }
@@ -121,11 +124,13 @@ public class UserServiceImplTest {
   public void registerExistingEmailAddressShouldFail() throws RegistrationException {
     String username = "existing";
     String emailAddress = "gerhard@home.de";
+    String firstName = "Gerhard";
+    String lastName = "Jansen";
     String password = "MyPassword!";
     doThrow(EmailAddressExistsException.class).when(registrationManagementMock).register(username, emailAddress,
-        password);
+        firstName, lastName, password);
 
-    RegistrationCommand command = new RegistrationCommand(username, emailAddress, password);
+    RegistrationCommand command = new RegistrationCommand(username, emailAddress, firstName, lastName, password);
     instance.register(command);
   }
 
@@ -133,10 +138,13 @@ public class UserServiceImplTest {
   public void registerValidCommandShouldSucceed() throws RegistrationException {
     String username = "Gerhard";
     String emailAddress = "gerhard@home.de";
+    String firstName = "Gerhard";
+    String lastName = "Jansen";
     String password = "MyPassword!";
-    User newUser = User.create(username, emailAddress, password);
-    when(registrationManagementMock.register(username, emailAddress, password)).thenReturn(newUser);
-    RegistrationCommand command = new RegistrationCommand(username, emailAddress, password);
+    User newUser = User.create(username, emailAddress, firstName, lastName, password);
+    when(registrationManagementMock.register(username, emailAddress, firstName, lastName, password))
+        .thenReturn(newUser);
+    RegistrationCommand command = new RegistrationCommand(username, emailAddress, firstName, lastName, password);
 
     instance.register(command);
 

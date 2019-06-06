@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
-import { enUS, zhCN } from "./locale";
+import { enUS, deDE } from "./locale";
 
 Vue.use(VueI18n);
 
@@ -9,6 +9,6 @@ export const i18n = new VueI18n({
   locale: "en_US",
   messages: {
     en_US: enUS,
-    zh_CN: zhCN
+    de_DE: deDE
   }
 });

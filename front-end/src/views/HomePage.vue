@@ -50,16 +50,13 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "HomePage",
-  data () {
+  data() {
     return {
       selectedTeamId: 0
-    }
+    };
   },
   computed: {
-    ...mapGetters([
-      "personalBoards",
-      "teamBoards"
-    ])
+    ...mapGetters(["personalBoards", "teamBoards"])
   },
   components: {
     PageHeader,
@@ -67,18 +64,17 @@ export default {
     CreateTeamModal
   },
   methods: {
-
-    openBoard (board) {
+    openBoard(board) {
       this.$router.push({ name: "board", params: { boardId: board.id } });
     },
-    createBoard (team) {
+    createBoard(team) {
       this.selectedTeamId = team ? team.id : 0;
       $("#createBoardModal").modal("show");
     },
-    createTeam () {
+    createTeam() {
       $("#createTeamModal").modal("show");
     },
-    onBoardCreated (boardId) {
+    onBoardCreated(boardId) {
       this.$router.push({ name: "board", params: { boardId: boardId } });
     }
   }
@@ -100,7 +96,7 @@ export default {
         width: 270px;
         height: 110px;
         border-radius: 5px;
-        background-color: #377EF6;
+        background-color: #377ef6;
         color: #fff;
         padding: 15px;
         margin-right: 10px;
@@ -112,7 +108,7 @@ export default {
           line-height: 1.2;
           font-size: 90%;
           font-weight: 100;
-          color: rgba(255, 255, 255, 0.70)
+          color: rgba(255, 255, 255, 0.7);
         }
       }
       .add {

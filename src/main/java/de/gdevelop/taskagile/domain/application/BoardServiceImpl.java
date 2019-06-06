@@ -4,10 +4,17 @@ import de.gdevelop.taskagile.domain.application.BoardService;
 import de.gdevelop.taskagile.domain.application.commands.CreateBoardCommand;
 import de.gdevelop.taskagile.domain.common.event.DomainEventPublisher;
 import de.gdevelop.taskagile.domain.model.board.Board;
+import de.gdevelop.taskagile.domain.model.board.BoardId;
 import de.gdevelop.taskagile.domain.model.board.BoardManagement;
+import de.gdevelop.taskagile.domain.model.board.BoardMemberRepository;
 import de.gdevelop.taskagile.domain.model.board.BoardRepository;
 import de.gdevelop.taskagile.domain.model.board.events.BoardCreatedEvent;
+import de.gdevelop.taskagile.domain.model.board.events.BoardMemberAddedEvent;
+import de.gdevelop.taskagile.domain.model.user.User;
+import de.gdevelop.taskagile.domain.model.user.UserFinder;
 import de.gdevelop.taskagile.domain.model.user.UserId;
+import de.gdevelop.taskagile.domain.model.user.UserNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,12 +26,16 @@ public class BoardServiceImpl implements BoardService {
 
   private BoardRepository boardRepository;
   private BoardManagement boardManagement;
+  private BoardMemberRepository boardMemberRepository;
+  private UserFinder userFinder;
   private DomainEventPublisher domainEventPublisher;
 
   public BoardServiceImpl(BoardRepository boardRepository, BoardManagement boardManagement,
-      DomainEventPublisher domainEventPublisher) {
+      BoardMemberRepository boardMemberRepository, UserFinder userFinder, DomainEventPublisher domainEventPublisher) {
     this.boardRepository = boardRepository;
     this.boardManagement = boardManagement;
+    this.boardMemberRepository = boardMemberRepository;
+    this.userFinder = userFinder;
     this.domainEventPublisher = domainEventPublisher;
   }
 
@@ -34,10 +45,28 @@ public class BoardServiceImpl implements BoardService {
   }
 
   @Override
+  public Board findById(BoardId boardId) {
+    return boardRepository.findById(boardId);
+  }
+
+  @Override
+  public List<User> findMembers(BoardId boardId) {
+    return boardMemberRepository.findMembers(boardId);
+  }
+
+  @Override
   public Board createBoard(CreateBoardCommand command) {
     Board board = boardManagement.createBoard(command.getUserId(), command.getName(), command.getDescription(),
         command.getTeamId());
     domainEventPublisher.publish(new BoardCreatedEvent(this, board));
     return board;
+  }
+
+  @Override
+  public User addMember(BoardId boardId, String usernameOrEmailAddress) throws UserNotFoundException {
+    User user = userFinder.find(usernameOrEmailAddress);
+    boardMemberRepository.add(boardId, user.getId());
+    domainEventPublisher.publish(new BoardMemberAddedEvent(this, boardId, user));
+    return user;
   }
 }

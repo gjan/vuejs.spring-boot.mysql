@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 
 import de.gdevelop.taskagile.domain.model.board.Board;
 import de.gdevelop.taskagile.domain.model.team.Team;
-import de.gdevelop.taskagile.domain.model.user.SimpleUser;
+import de.gdevelop.taskagile.domain.model.user.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +13,9 @@ import java.util.Map;
 
 public class MyDataResult {
 
-  public static ResponseEntity<ApiResult> build(SimpleUser currentUser, List<Team> teams, List<Board> boards) {
-    Map<String, Object> user = new HashMap<>();
-    user.put("name", currentUser.getUsername());
+  public static ResponseEntity<ApiResult> build(User user, List<Team> teams, List<Board> boards) {
+    Map<String, Object> userData = new HashMap<>();
+    userData.put("name", user.getUsername());
 
     List<TeamResult> teamResults = new ArrayList<>();
     for (Team team : teams) {
@@ -27,7 +27,7 @@ public class MyDataResult {
       boardResults.add(new BoardResult(board));
     }
 
-    ApiResult apiResult = ApiResult.blank().add("user", user).add("teams", teamResults).add("boards", boardResults);
+    ApiResult apiResult = ApiResult.blank().add("user", userData).add("teams", teamResults).add("boards", boardResults);
 
     return Result.ok(apiResult);
   }

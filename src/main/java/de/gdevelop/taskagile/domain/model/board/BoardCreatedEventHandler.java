@@ -6,7 +6,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import de.gdevelop.taskagile.domain.model.board.events.BoardCreatedEvent;
-import de.gdevelop.taskagile.domain.model.user.events.UserRegisteredEvent;
 
 @Component
 public class BoardCreatedEventHandler {

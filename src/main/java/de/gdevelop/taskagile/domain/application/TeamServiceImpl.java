@@ -3,6 +3,7 @@ package de.gdevelop.taskagile.domain.application;
 import de.gdevelop.taskagile.domain.application.commands.CreateTeamCommand;
 import de.gdevelop.taskagile.domain.common.event.DomainEventPublisher;
 import de.gdevelop.taskagile.domain.model.team.Team;
+import de.gdevelop.taskagile.domain.model.team.TeamId;
 import de.gdevelop.taskagile.domain.model.team.TeamRepository;
 import de.gdevelop.taskagile.domain.model.team.events.TeamCreatedEvent;
 import de.gdevelop.taskagile.domain.model.user.UserId;
@@ -26,6 +27,11 @@ public class TeamServiceImpl implements TeamService {
   @Override
   public List<Team> findTeamsByUserId(UserId userId) {
     return teamRepository.findTeamsByUserId(userId);
+  }
+
+  @Override
+  public Team findById(TeamId teamId) {
+    return teamRepository.findById(teamId);
   }
 
   @Override

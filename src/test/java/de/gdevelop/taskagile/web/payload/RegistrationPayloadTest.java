@@ -25,6 +25,8 @@ public class RegistrationPayloadTest {
   private static String validPassword = "password";
   private static String invalidPasswordMinLength = "passw";
   private static String invalidPasswordMaxLength = "G1234567890123456789012345678901";
+  private static String validFirstName = "Gerhard";
+  private static String validLastName = "Jansen";
 
   @Before
   public void setup() {
@@ -36,7 +38,7 @@ public class RegistrationPayloadTest {
   public void validateBlankPayloadShouldFail() {
     RegistrationPayload payload = new RegistrationPayload();
     Set<ConstraintViolation<RegistrationPayload>> violations = validator.validate(payload);
-    assertEquals(3, violations.size());
+    assertEquals(5, violations.size());
   }
 
   @Test
@@ -45,6 +47,8 @@ public class RegistrationPayloadTest {
     payload.setEmailAddress(invalidEmailAddress);
     payload.setUsername(validUsername);
     payload.setPassword(validPassword);
+    payload.setFirstName(validFirstName);
+    payload.setLastName(validLastName);
 
     Set<ConstraintViolation<RegistrationPayload>> violations = validator.validate(payload);
     assertEquals(1, violations.size());
@@ -63,6 +67,8 @@ public class RegistrationPayloadTest {
     payload.setEmailAddress(localPart + "@" + domain + ".com");
     payload.setUsername(validUsername);
     payload.setPassword(validPassword);
+    payload.setFirstName(validFirstName);
+    payload.setLastName(validLastName);
 
     Set<ConstraintViolation<RegistrationPayload>> violations = validator.validate(payload);
     assertEquals(1, violations.size());
@@ -76,6 +82,8 @@ public class RegistrationPayloadTest {
     payload.setEmailAddress(validEmailAddress);
     payload.setUsername(invalidUsernameMinLength);
     payload.setPassword(validPassword);
+    payload.setFirstName(validFirstName);
+    payload.setLastName(validLastName);
 
     Set<ConstraintViolation<RegistrationPayload>> violations = validator.validate(payload);
     assertEquals(1, violations.size());
@@ -89,6 +97,8 @@ public class RegistrationPayloadTest {
     payload.setEmailAddress(validEmailAddress);
     payload.setUsername(invalidUsernameMaxLength);
     payload.setPassword(validPassword);
+    payload.setFirstName(validFirstName);
+    payload.setLastName(validLastName);
 
     Set<ConstraintViolation<RegistrationPayload>> violations = validator.validate(payload);
     assertEquals(1, violations.size());
@@ -102,6 +112,8 @@ public class RegistrationPayloadTest {
     payload.setEmailAddress(validEmailAddress);
     payload.setUsername(validUsername);
     payload.setPassword(invalidPasswordMinLength);
+    payload.setFirstName(validFirstName);
+    payload.setLastName(validLastName);
 
     Set<ConstraintViolation<RegistrationPayload>> violations = validator.validate(payload);
     assertEquals(1, violations.size());
@@ -115,6 +127,8 @@ public class RegistrationPayloadTest {
     payload.setEmailAddress(validEmailAddress);
     payload.setUsername(validUsername);
     payload.setPassword(invalidPasswordMaxLength);
+    payload.setFirstName(validFirstName);
+    payload.setLastName(validLastName);
 
     Set<ConstraintViolation<RegistrationPayload>> violations = validator.validate(payload);
     assertEquals(1, violations.size());

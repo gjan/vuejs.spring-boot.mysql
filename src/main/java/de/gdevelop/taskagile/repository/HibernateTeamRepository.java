@@ -1,8 +1,11 @@
 package de.gdevelop.taskagile.repository;
 
 import de.gdevelop.taskagile.domain.model.team.Team;
+import de.gdevelop.taskagile.domain.model.team.TeamId;
 import de.gdevelop.taskagile.domain.model.team.TeamRepository;
 import de.gdevelop.taskagile.domain.model.user.UserId;
+
+import org.hibernate.query.Query;
 import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +27,12 @@ public class HibernateTeamRepository extends HibernateSupport<Team> implements T
     NativeQuery<Team> query = getSession().createNativeQuery(sql, Team.class);
     query.setParameter("userId", userId.value());
     return query.list();
+  }
+
+  @Override
+  public Team findById(TeamId teamId) {
+    Query<Team> query = getSession().createQuery("from Team where id = :id", Team.class);
+    query.setParameter("id", teamId.value());
+    return query.uniqueResult();
   }
 }

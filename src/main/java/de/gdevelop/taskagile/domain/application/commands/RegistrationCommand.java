@@ -8,20 +8,26 @@ public class RegistrationCommand {
 
   private String username;
   private String emailAddress;
+  private String firstName;
+  private String lastName;
   private String password;
 
-  public RegistrationCommand(String username, String emailAddress, String password) {
+  public RegistrationCommand(String username, String emailAddress, String firstName, String lastName, String password) {
     Assert.hasText(username, "Parameter `username` must not be empty");
     Assert.hasText(emailAddress, "Parameter `emailAddress` must not be empty");
+    Assert.hasText(firstName, "Parameter `firstName` must not be empty");
+    Assert.hasText(lastName, "Parameter `lastName` must not be empty");
     Assert.hasText(password, "Parameter `password` must not be empty");
 
     this.username = username;
     this.emailAddress = emailAddress;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.password = password;
   }
 
   public RegistrationCommand toCommand() {
-    return new RegistrationCommand(this.username, this.emailAddress, this.password);
+    return new RegistrationCommand(this.username, this.emailAddress, this.firstName, this.lastName, this.password);
   }
 
   public String getUsername() {
@@ -30,6 +36,14 @@ public class RegistrationCommand {
 
   public String getEmailAddress() {
     return this.emailAddress;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
   }
 
   public String getPassword() {
@@ -43,20 +57,21 @@ public class RegistrationCommand {
     if (!(o instanceof RegistrationCommand)) {
       return false;
     }
-    RegistrationCommand registrationCommand = (RegistrationCommand) o;
-    return Objects.equals(username, registrationCommand.username)
-        && Objects.equals(emailAddress, registrationCommand.emailAddress)
-        && Objects.equals(password, registrationCommand.password);
+    RegistrationCommand that = (RegistrationCommand) o;
+    return Objects.equals(username, that.username) && Objects.equals(emailAddress, that.emailAddress)
+        && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName)
+        && Objects.equals(password, that.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(username, emailAddress, password);
+    return Objects.hash(username, emailAddress, firstName, lastName, password);
   }
 
   @Override
   public String toString() {
-    return "RegistrationCommand {" + " username='" + getUsername() + "'" + ", emailAddress='" + getEmailAddress() + "'"
-        + ", password='" + getPassword() + "'" + "}";
+    return "{" + " username='" + username + "'" + ", emailAddress='" + emailAddress + "'" + ", firstName='" + firstName
+        + "'" + ", lastName='" + lastName + "'" + ", password='" + password + "'" + "}";
   }
+
 }

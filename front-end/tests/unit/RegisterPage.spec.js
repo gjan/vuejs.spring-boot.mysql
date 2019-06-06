@@ -19,6 +19,8 @@ describe("RegisterPage.vue", () => {
   let wrapper;
   let fieldUsername;
   let fieldEmailAddress;
+  let fieldFirstName;
+  let fieldLastName;
   let fieldPassword;
   let buttonSubmit;
 
@@ -32,6 +34,8 @@ describe("RegisterPage.vue", () => {
     });
     fieldUsername = wrapper.find("#username");
     fieldEmailAddress = wrapper.find("#emailAddress");
+    fieldFirstName = wrapper.find("#firstName");
+    fieldLastName = wrapper.find("#lastName");
     fieldPassword = wrapper.find("#password");
     buttonSubmit = wrapper.find("form button[type = 'submit']");
     registerSpy = jest.spyOn(registrationService, "register");
@@ -53,6 +57,8 @@ describe("RegisterPage.vue", () => {
     );
     expect(fieldUsername.element.value).toEqual("");
     expect(fieldEmailAddress.element.value).toEqual("");
+    expect(fieldFirstName.element.value).toEqual("");
+    expect(fieldLastName.element.value).toEqual("");
     expect(fieldPassword.element.value).toEqual("");
     expect(buttonSubmit.text()).toEqual("Create account");
   });
@@ -67,14 +73,20 @@ describe("RegisterPage.vue", () => {
   it("should have form inputs bound to data model", () => {
     const username = "gerhard";
     const emailAddress = "gerhard@home.de";
+    const firstName = "Gerhard";
+    const lastName = "Jansen";
     const password = "MySuperSecretPwd";
 
     wrapper.vm.form.username = username;
     wrapper.vm.form.emailAddress = emailAddress;
+    wrapper.vm.form.firstName = firstName;
+    wrapper.vm.form.lastName = lastName;
     wrapper.vm.form.password = password;
 
     expect(fieldUsername.element.value).toEqual(username);
     expect(fieldEmailAddress.element.value).toEqual(emailAddress);
+    expect(fieldFirstName.element.value).toEqual(firstName);
+    expect(fieldLastName.element.value).toEqual(lastName);
     expect(fieldPassword.element.value).toEqual(password);
   });
 
@@ -90,6 +102,8 @@ describe("RegisterPage.vue", () => {
 
     const stub = jest.fn();
     const username = "gerhard";
+    const firstName = "Gerhard";
+    const lastName = "Jansen";
     const emailAddress = "gerhard@home.de";
     const password = "MySuperSecretPwd";
 
@@ -97,6 +111,8 @@ describe("RegisterPage.vue", () => {
 
     wrapper.vm.form.username = username;
     wrapper.vm.form.emailAddress = emailAddress;
+    wrapper.vm.form.firstName = firstName;
+    wrapper.vm.form.lastName = lastName;
     wrapper.vm.form.password = password;
     wrapper.vm.submitForm();
     expect(registerSpy).toBeCalled();
@@ -109,6 +125,8 @@ describe("RegisterPage.vue", () => {
     // In the mock only "gerhard@home.de" is a new user
     wrapper.vm.form.username = "uschi";
     wrapper.vm.form.emailAddress = "uschi@already-exists.com";
+    wrapper.vm.form.firstName = "Uschi";
+    wrapper.vm.form.lastName = "Sushi";
     wrapper.vm.form.password = "AnInsecurePwd";
     expect(wrapper.find(".failed").isVisible()).toBe(false);
     wrapper.vm.submitForm();
@@ -120,6 +138,8 @@ describe("RegisterPage.vue", () => {
   it("should fail it the email address is invalid", () => {
     const spy = jest.spyOn(registrationService, "register");
     wrapper.vm.form.emailAddress = "bad-email-address";
+    wrapper.vm.form.firstName = "User";
+    wrapper.vm.form.lastName = "Test";
     wrapper.vm.submitForm();
     expect(spy).not.toHaveBeenCalled();
     spy.mockReset();
@@ -129,6 +149,8 @@ describe("RegisterPage.vue", () => {
   it("should fail when the username is invalid", () => {
     wrapper.vm.form.username = "a";
     wrapper.vm.form.emailAddress = "good-mailaddres@home.de";
+    wrapper.vm.form.firstName = "User";
+    wrapper.vm.form.lastName = "Test";
     wrapper.vm.form.password = "good-password";
     wrapper.vm.submitForm();
     expect(registerSpy).not.toHaveBeenCalled();
@@ -137,7 +159,29 @@ describe("RegisterPage.vue", () => {
   it("should fail when the password is invalid", () => {
     wrapper.vm.form.username = "goodusername";
     wrapper.vm.form.emailAddress = "good-mailaddres@home.de";
+    wrapper.vm.form.firstName = "User";
+    wrapper.vm.form.lastName = "Test";
     wrapper.vm.form.password = "bad!";
+    wrapper.vm.submitForm();
+    expect(registerSpy).not.toHaveBeenCalled();
+  });
+
+  it("should fail when the first name is invalid", () => {
+    wrapper.vm.form.username = "goodusername";
+    wrapper.vm.form.emailAddress = "good-mailaddres@home.de";
+    wrapper.vm.form.firstName = "";
+    wrapper.vm.form.lastName = "Test";
+    wrapper.vm.form.password = "good-password";
+    wrapper.vm.submitForm();
+    expect(registerSpy).not.toHaveBeenCalled();
+  });
+
+  it("should fail when the last name is invalid", () => {
+    wrapper.vm.form.username = "goodusername";
+    wrapper.vm.form.emailAddress = "good-mailaddres@home.de";
+    wrapper.vm.form.firstName = "User";
+    wrapper.vm.form.lastName = "";
+    wrapper.vm.form.password = "good-password";
     wrapper.vm.submitForm();
     expect(registerSpy).not.toHaveBeenCalled();
   });
