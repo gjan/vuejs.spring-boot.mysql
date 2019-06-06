@@ -37,3 +37,4 @@ spy.log
 
 ### VS Code ###
 .vscode/
+src/main/resources/templates/index.html
