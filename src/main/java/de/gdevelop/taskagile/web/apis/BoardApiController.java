@@ -11,9 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class BoardApiController {
+
+  private final static Logger log = LoggerFactory.getLogger(BoardApiController.class);
 
   private BoardService boardService;
 
@@ -25,6 +29,8 @@ public class BoardApiController {
   public ResponseEntity<ApiResult> createBoard(@RequestBody CreateBoardPayload payload,
       @CurrentUser SimpleUser currentUser) {
     Board board = boardService.createBoard(payload.toCommand(currentUser.getUserId()));
+    log.info("Handling `{}` board creation api call", payload.toString());
+
     return CreateBoardResult.build(board);
   }
 }

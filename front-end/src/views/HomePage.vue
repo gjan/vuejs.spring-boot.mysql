@@ -50,6 +50,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "HomePage",
+  data () {
+    return {
+      selectedTeamId: 0
+    }
+  },
   computed: {
     ...mapGetters([
       "personalBoards",

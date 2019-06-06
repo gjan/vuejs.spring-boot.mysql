@@ -26,4 +26,9 @@ public class CreateBoardPayload {
     this.teamId = teamId;
   }
 
+  @Override
+  public String toString() {
+    return "{" + " name='" + name + "'" + ", description='" + description + "'" + ", teamId='" + teamId + "'" + "}";
+  }
+
 }
